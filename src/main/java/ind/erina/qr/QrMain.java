@@ -130,7 +130,7 @@ public class QrMain extends JFrame {
 		lbSoleCode.setBounds(10, y, 65, 20);
 		this.add(lbSoleCode);
 		limitDocument = new LimitedDocument();
-		limitDocument.setAllowChar("0123456789");
+		limitDocument.setAllowChar("0123456789ABCDEFabcdef");
 		txSoleCode.setDocument(limitDocument);
 		txSoleCode.setBounds(80, y, 170, 20);
 		add(txSoleCode);
@@ -206,7 +206,7 @@ public class QrMain extends JFrame {
 					lbImg.setIcon(icon);
 				}
 				File outputFile = new File(FileSystemView.getFileSystemView().getHomeDirectory().getPath()
-						+ File.separator + ctn.substring(1, ctn.length()-1)+ ".png");
+						+ File.separator + o.deviceType+o.ptDate+o.start+ ".png");
 				MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
 			} catch (Exception e1) {
 				e1.printStackTrace();

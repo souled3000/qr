@@ -8,7 +8,7 @@ import javax.swing.filechooser.FileSystemView;
 
 public class Utils {
 	public static int base32Encode(byte[] out, int outSize, int val, int inSize) {
-		final byte b32[] = "0123456789ABCDEFGHIJKLMNOPQRSTU/".getBytes();
+		final byte b32[] = "0123456789ABCDEFGHIJKLMNOPQRSTUV".getBytes();
 		int outByte = inSize * 8 / 5, i, n = 0;
 		if (outSize < outByte) {
 			return 0;
@@ -28,7 +28,7 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		byte[] out = new byte[4];
 		int val = 2920;
 		int n = base32Encode(out,4,val,2);
@@ -37,5 +37,10 @@ public class Utils {
 		FileSystemView fsv = FileSystemView.getFileSystemView();
 		File com=fsv.getHomeDirectory();    //这便是读取桌面路径的方法了
 		System.out.println(com.getPath());
+	}
+	public static void main(String[] args) {
+		
+		System.out.println(System.currentTimeMillis()-10*60*60*1000);
+		
 	}
 }

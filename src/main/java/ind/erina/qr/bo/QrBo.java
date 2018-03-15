@@ -3,7 +3,6 @@ package ind.erina.qr.bo;
 import java.io.File;
 import java.io.FileWriter;
 
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -38,16 +37,19 @@ public class QrBo {
 			byte[] out = new byte[3];
 			Utils.base32Encode(out, 3, val, 2);
 			// System.out.println(ByteUtil.toHex(out));
-			this.finalString.append(ByteUtil.toHex(out));
+			this.finalString.append(new String(out));
+			// this.finalString.append(ByteUtil.toHex(out));
 			long d1 = DateUtils.parseDate("20100101", new String[] { "yyyyMMdd" }).getTime();
 			long d2 = DateUtils.parseDate(this.ptDate, new String[] { "yyyyMMdd" }).getTime();
 			long dif = (d2 - d1) / (1000 * 3600 * 24);
 			out = new byte[4];
 			// System.out.println((int) dif);
-			Utils.base32Encode(out, 4, (int) dif, 2);
-			// System.out.println(ByteUtil.toHex(out));
-			this.finalString.append(ByteUtil.toHex(out));
-			this.finalString.append(String.format("%010X", this.start));
+			Utils.base32Encode(out, 4, (int) dif, 3);
+//			System.out.println(new String(out));
+//			System.out.println(ByteUtil.toHex(out));
+			this.finalString.append(new String(out));
+			// this.finalString.append(ByteUtil.toHex(out));
+			this.finalString.append(String.format("%05d", this.start));
 			break;
 		case "SE":
 			this.finalString.append(String.format("%02X", soleCode.length()));
@@ -59,7 +61,7 @@ public class QrBo {
 	}
 
 	public void batchGen() throws Exception {
-		if(start>end) {
+		if (start > end) {
 			return;
 		}
 		StringBuilder sb = new StringBuilder();
@@ -67,7 +69,9 @@ public class QrBo {
 				+ "二维码批量.csv";
 		FileWriter writer = new FileWriter(fileName, true);
 		for (int i = start; i <= end; i++) {
-			sb.append(String.format("%010X", i)).append(",").append(gen()).append(System.getProperty("line.separator"));
+			this.start = i;
+//			sb.append(String.format("%010X", i)).append(",").append(gen()).append(System.getProperty("line.separator"));
+			sb.append(i).append(",").append(gen()).append(System.getProperty("line.separator"));
 			if (i % 1000 == 0) {
 				writer.write(sb.toString());
 				sb.delete(0, sb.length());
@@ -86,6 +90,6 @@ public class QrBo {
 		bo.start = 30;
 		String qr = bo.gen();
 		System.out.println(qr);
-//		bo.batchGen();
+		// bo.batchGen();
 	}
 }
